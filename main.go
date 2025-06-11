@@ -11,6 +11,8 @@ import (
 func main() {
 	var args struct {
 		Strings map[string]string `arg:"-s,--string"`
+		Numbers map[string]int    `arg:"-n,--number"`
+		Bool    map[string]bool   `arg:"-b,--bool"`
 	}
 
 	arg.MustParse(&args)
