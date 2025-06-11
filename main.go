@@ -1,12 +1,16 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
+	"os"
+
+	"maps"
 
 	"github.com/alexflint/go-arg"
-	"maps"
 )
 
 func main() {
@@ -19,11 +23,24 @@ func main() {
 
 	arg.MustParse(&args)
 
+	// Handle stdin
+	fi, err := os.Stdin.Stat()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	jsonIn := "{}"
+	if (fi.Mode() & os.ModeNamedPipe) != 0 {
+		// Stdin is connected to a pipe
+		jsonIn, _ = ReadStdIn()
+	}
+
 	jsonArg := args.Json
 	if args.Json == "" {
 		jsonArg = "{}"
 	}
 	dat := MergeJson(
+		jsonIn,
 		jsonArg,
 		ToJson(args.Strings),
 		ToJson(args.Numbers),
@@ -46,7 +63,7 @@ func FromJson(jsonStr string) map[string]any {
 	var dat map[string]any
 
 	if err := json.Unmarshal(byt, &dat); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	return dat
@@ -60,4 +77,18 @@ func MergeJson(jsonStrings ...string) map[string]any {
 	}
 
 	return merged
+}
+
+func ReadStdIn() (string, error) {
+	rdr := bufio.NewReader(os.Stdin)
+
+	switch line, err := rdr.ReadString('\n'); err {
+	case nil:
+		return line, nil
+	case io.EOF:
+		return "", err
+	default:
+		fmt.Fprintln(os.Stderr, "error:", err)
+		return "", err
+	}
 }
