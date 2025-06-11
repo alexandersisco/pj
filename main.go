@@ -6,28 +6,30 @@ import (
 	"log"
 
 	"github.com/alexflint/go-arg"
+	"maps"
 )
 
 func main() {
 	var args struct {
-		Json    string            `arg:"-j,--json"`
-		Strings map[string]string `arg:"-s,--string"`
-		Numbers map[string]int    `arg:"-n,--number"`
-		Bool    map[string]bool   `arg:"-b,--bool"`
+		Json     string            `arg:"-j,--json"`
+		Strings  map[string]string `arg:"-s,--string"`
+		Numbers  map[string]int    `arg:"-n,--number"`
+		Booleans map[string]bool   `arg:"-b,--bool"`
 	}
 
 	arg.MustParse(&args)
 
-	if args.Json != "" {
-		var dat map[string]any
-		dat = FromJson(args.Json)
-
-		jsonStr := ToJson(dat)
-		fmt.Println(jsonStr)
-		args.Json = ""
+	jsonArg := args.Json
+	if args.Json == "" {
+		jsonArg = "{}"
 	}
+	dat := MergeJson(
+		jsonArg,
+		ToJson(args.Strings),
+		ToJson(args.Numbers),
+		ToJson(args.Booleans))
 
-	jsonStr := ToJson(args)
+	jsonStr := ToJson(dat)
 	fmt.Println(jsonStr)
 }
 
@@ -48,4 +50,14 @@ func FromJson(jsonStr string) map[string]any {
 	}
 
 	return dat
+}
+
+func MergeJson(jsonStrings ...string) map[string]any {
+	merged := FromJson("{}")
+	for _, jsonStr := range jsonStrings {
+		d := FromJson(jsonStr)
+		maps.Copy(merged, d)
+	}
+
+	return merged
 }
