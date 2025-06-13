@@ -13,14 +13,20 @@ import (
 	"github.com/alexflint/go-arg"
 )
 
-func main() {
-	var args struct {
-		Json     string            `arg:"-j,--json"`
-		Strings  map[string]string `arg:"-s,--string"`
-		Numbers  map[string]int    `arg:"-n,--number"`
-		Booleans map[string]bool   `arg:"-b,--bool"`
-	}
+type args struct {
+	Json     string            `arg:"-j,--json" help:"json string"`
+	Strings  map[string]string `arg:"-s,--string" help:"key-value pairs where the value is a string"`
+	Numbers  map[string]int    `arg:"-n,--number" help:"key-value pairs where the value is a number"`
+	Booleans map[string]bool   `arg:"-b,--bool" help:"key-value pairs where the value is a bool."`
+}
 
+func (args) Description() string {
+	return "\nA utility for making json strings from command line arguments\n"
+}
+
+func main() {
+
+	var args args
 	arg.MustParse(&args)
 
 	// Handle stdin
