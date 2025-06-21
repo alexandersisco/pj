@@ -21,7 +21,7 @@ type args struct {
 }
 
 func (args) Description() string {
-	return "\nA utility for making json strings from command line arguments\n"
+	return "\nThe easiest way to produce json strings on the command line\n"
 }
 
 func main() {
