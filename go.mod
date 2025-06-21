@@ -1,4 +1,4 @@
-module github.com/alexandersisco/jargon
+module github.com/alexandersisco/pj
 
 go 1.24.3
 
