@@ -22,7 +22,7 @@ pj produces the following json output, albeit in compact form:
 ```
 
 ### Stdin
-pj accepts json from stdin. Simply pipe your json into pj and then add properties to it. Keys with the same name will overwrite others based on the following precedence: `stdin`, `--json`, `--string`, `--number`, `--boolean` with those coming after overwriting those that came before.
+pj accepts json from standard input. Simply pipe your json into pj and then add properties to it. Keys with the same name will overwrite others based on the following precedence: `stdin`, `--json`, `--string`, `--number`, `--boolean` with those coming after overwriting those that came before.
 
 Example file: `weather.json`:
 ```
@@ -49,7 +49,7 @@ json output:
 }
 ```
 
-### What about arrays
+### What about arrays?
 For now, pj optimizes for the creation of json objects rather than arrays. However, any json string can be passed in to pj by wrapping it in an object.
 ```
 pj --json '{"numbers": [1, 2, 3, 4, 5, 6, 7]}'
