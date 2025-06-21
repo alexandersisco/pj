@@ -54,3 +54,6 @@ For now, pj optimizes for the creation of json objects rather than arrays. Howev
 ```
 pj --json '{"numbers": [1, 2, 3, 4, 5, 6, 7]}'
 ```
+#
+
+![Robin_Hood_1973_That_s_P_J_to_a_T](https://github.com/user-attachments/assets/0bee1dc9-3ce2-4c9d-bb41-bd44fafd09b4)
