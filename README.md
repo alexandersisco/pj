@@ -1,5 +1,5 @@
 # pj
-`pj` is a handy utility for building json strings on the command line. It's meant to complement `jq`, which is excellent for querying json but rather cumbersome when it comes to creating json strings from scratch. The main idea behind `pj` is to use POSIX-compliant argument syntax of the form `--key=value` to build up relatively complex json strings with ease.
+`pj` is a handy utility for building json strings on the command line. It is meant to complement `jq`, which is excellent for querying json but rather cumbersome when it comes to creating json strings from scratch. pj makes it easy by allowing json properties to be passed in via a simple syntax: `key=value`.
 
 ## Usage
 Json objects are made up of properties of key-value pairs. pj lets you create these properties by first specifying the type with a flag (whether `-s`, `--string`; `-n`, `--number`; or `-b`, `--boolean`) and then listing the keys with their values using the following form:
